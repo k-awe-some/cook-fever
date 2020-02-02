@@ -1,12 +1,12 @@
 <div>
   <div class="col-sx-12">
-    <img src="" alt="" class="img-responsive" />
+    <img [src]="recipe.imagePath" [alt]="recipe.name" class="img-responsive" />
   </div>
 </div>
 
 <div class="row">
   <div class="col-sx-12">
-    <h1>Recipe Name</h1>
+    <h1>{{ recipe.name }}</h1>
   </div>
 </div>
 
@@ -28,12 +28,13 @@
 
 <div class="row">
   <div class="col-sx-12">
-    Description
+    {{ recipe.description }}
   </div>
 </div>
 
 <div class="row">
   <div class="col-sx-12">
-    Ingredients
+    Ingredients for {{ recipe.name }} will display here once they become
+    available.
   </div>
 </div>

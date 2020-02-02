@@ -6,7 +6,10 @@
   </div>
 
   <div class="col-md-7">
-    <app-recipe-detail *ngIf="selectedRecipe; else noShow"></app-recipe-detail>
+    <app-recipe-detail
+      *ngIf="selectedRecipe; else noShow"
+      [recipe]="selectedRecipe"
+    ></app-recipe-detail>
     <ng-template #noShow>
       <p>Please select a recipe from the list.</p>
     </ng-template>

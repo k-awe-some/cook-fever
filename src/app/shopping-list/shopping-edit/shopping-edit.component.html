@@ -1,25 +1,57 @@
 <div class="row">
   <div class="col-xs-12">
-    <form class="" action="index.html" method="post">
+    <form
+      class=""
+      (ngSubmit)="onSubmitForm(shoppingListForm)"
+      #shoppingListForm="ngForm"
+    >
       <div class="row">
         <div class="col-sm-5 form-group">
           <label for="name">Name</label>
-          <input type="text" id="name" class="form-control" #nameInput />
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            name="name"
+            ngModel
+            required
+          />
         </div>
 
         <div class="col-sm-2 form-group">
           <label for="amount">Amount</label>
-          <input type="text" id="amount" class="form-control" #amountInput />
+          <input
+            type="text"
+            id="amount"
+            class="form-control"
+            name="amount"
+            ngModel
+            required
+            pattern="^[1-9]+[0-9]*$"
+          />
         </div>
       </div>
 
       <div class="row">
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-success" (click)="onAddItem()">
-            Add
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="shoppingListForm.invalid"
+          >
+            {{ editMode ? "Update" : "Add" }}
           </button>
-          <button type="button" class="btn btn-danger">Delete</button>
-          <button type="button" class="btn btn-primary">Clear</button>
+          <button
+            *ngIf="editMode"
+            type="button"
+            class="btn btn-danger"
+            (click)="onDeleteItem()"
+          >
+            Delete
+          </button>
+          <button type="button" class="btn btn-primary" (click)="onClearForm()">
+            Clear
+          </button>
         </div>
       </div>
     </form>

@@ -2,7 +2,7 @@
   <div class="col-xs-12">
     <form
       class=""
-      (ngSubmit)="onAddItem(shoppingListForm)"
+      (ngSubmit)="onSubmitForm(shoppingListForm)"
       #shoppingListForm="ngForm"
     >
       <div class="row">
@@ -39,7 +39,7 @@
             class="btn btn-success"
             [disabled]="shoppingListForm.invalid"
           >
-            Add
+            {{ editMode ? "Update" : "Add" }}
           </button>
           <button type="button" class="btn btn-danger">Delete</button>
           <button type="button" class="btn btn-primary">Clear</button>

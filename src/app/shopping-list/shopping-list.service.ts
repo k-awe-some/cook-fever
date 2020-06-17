@@ -3,6 +3,7 @@ import { Ingredient } from "../shared/ingredient.model";
 
 export class ShoppingListService {
   ingredientsChanged = new Subject<Ingredient[]>();
+  editingStarted = new Subject<number>();
   ingredients: Ingredient[] = [];
 
   constructor() {}
@@ -14,5 +15,9 @@ export class ShoppingListService {
 
   getIngredients() {
     return this.ingredients.slice();
+  }
+
+  getIngredient(index: number) {
+    return this.ingredients[index];
   }
 }

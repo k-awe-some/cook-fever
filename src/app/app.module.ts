@@ -14,6 +14,7 @@ import { ShoppingListComponent } from "./shopping-list/shopping-list.component";
 import { ShoppingEditComponent } from "./shopping-list/shopping-edit/shopping-edit.component";
 /* Services and Directives */
 import { ShoppingListService } from "./shopping-list/shopping-list.service";
+import { RecipesService } from "./recipes/recipes.service";
 import { DropdownDirective } from "./shared/dropdown.directive";
 import { RecipeStartComponent } from "./recipes/recipe-start/recipe-start.component";
 import { RecipeEditComponent } from "./recipes/recipe-edit/recipe-edit.component";
@@ -33,7 +34,7 @@ import { RecipeEditComponent } from "./recipes/recipe-edit/recipe-edit.component
     RecipeEditComponent,
   ],
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, AppRoutingModule],
-  providers: [ShoppingListService],
+  providers: [ShoppingListService, RecipesService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { catchError, tap } from "rxjs/operators";
-import { Subject, throwError } from "rxjs";
+import { BehaviorSubject, throwError } from "rxjs";
 
 import { fireBaseConfig } from "../../../firebase.config";
 import { User } from "./user.model";
@@ -17,7 +17,10 @@ export interface AuthResponseData {
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
-  user = new Subject<User>();
+  // BehaviorSubject gives subscribers immediate access
+  // to the previously emitted value even if they haven't
+  // subscribed at the point of time that value was emitted
+  user = new BehaviorSubject<User>(null);
 
   constructor(private http: HttpClient) {}
 

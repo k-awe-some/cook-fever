@@ -24,16 +24,7 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
-    return this.authService.user.pipe(
-      // take value from user observable (1 time only, then auto unsubscribe())
-      take(1),
-      // replace it with a new observable (http observable)
-      // and return this http observable for next pipe
-      exhaustMap((user) => {
-        return this.http.get<Recipe[]>(`${this.firebaseAPI}/recipes.json`, {
-          params: new HttpParams().set("auth", user.token),
-        });
-      }),
+    return this.http.get<Recipe[]>(`${this.firebaseAPI}/recipes.json`).pipe(
       // rxjs map(): manipulate input observable and/or
       // return a new (manipulated) observable
       map((res) => {

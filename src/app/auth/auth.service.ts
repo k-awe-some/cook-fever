@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Router } from "@angular/router";
 import { catchError, tap } from "rxjs/operators";
 import { BehaviorSubject, throwError } from "rxjs";
 
@@ -22,7 +23,7 @@ export class AuthService {
   // subscribed at the point of time that value was emitted
   user = new BehaviorSubject<User>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage: string = "An unknown error occurred!";
@@ -90,5 +91,10 @@ export class AuthService {
         catchError((errorRes) => this.handleError(errorRes)),
         tap((resData) => this.handleAuth(resData))
       );
+  }
+
+  logOut() {
+    this.user.next(null);
+    this.router.navigate(["/auth"]);
   }
 }

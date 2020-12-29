@@ -1,3 +1,7 @@
 a {
   cursor: pointer;
 }
+
+.collapse {
+  display: block;
+}

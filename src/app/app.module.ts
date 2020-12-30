@@ -25,6 +25,7 @@ import { ShoppingListService } from "./shopping-list/shopping-list.service";
 import { RecipesService } from "./recipes/recipes.service";
 import { AlertComponent } from "./shared/alert/alert.component";
 import { DropdownDirective } from "./shared/dropdown.directive";
+import { PlaceholderDirective } from "./shared/placeholder/placeholder.directive";
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { DropdownDirective } from "./shared/dropdown.directive";
     AuthComponent,
     LoadingSpinnerComponent,
     AlertComponent,
+    PlaceholderDirective,
   ],
   imports: [
     HttpClientModule,
@@ -60,5 +62,8 @@ import { DropdownDirective } from "./shared/dropdown.directive";
     },
   ],
   bootstrap: [AppComponent],
+  // specify component(s) that will eventually need to be
+  // created without a selector or a route config (Angular 8)
+  entryComponents: [AlertComponent],
 })
 export class AppModule {}

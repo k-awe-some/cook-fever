@@ -23,6 +23,7 @@ import { LoadingSpinnerComponent } from "./shared/loading-spinner/loading-spinne
 import { AuthInterceptorService } from "./auth/auth-interceptor.service";
 import { ShoppingListService } from "./shopping-list/shopping-list.service";
 import { RecipesService } from "./recipes/recipes.service";
+import { AlertComponent } from "./shared/alert/alert.component";
 import { DropdownDirective } from "./shared/dropdown.directive";
 
 @NgModule({
@@ -40,6 +41,7 @@ import { DropdownDirective } from "./shared/dropdown.directive";
     RecipeEditComponent,
     AuthComponent,
     LoadingSpinnerComponent,
+    AlertComponent,
   ],
   imports: [
     HttpClientModule,

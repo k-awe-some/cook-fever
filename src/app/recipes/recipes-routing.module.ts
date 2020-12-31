@@ -31,6 +31,6 @@ const recipeRoutes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(recipeRoutes)],
-  exports: [RouterModule],
+  exports: [RouterModule], // export RouterModule only when in a separate routing module
 })
 export class RecipesRoutingModule {}

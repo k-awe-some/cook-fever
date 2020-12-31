@@ -7,17 +7,13 @@ import { AppRoutingModule } from "./app.routing.module";
 import { RecipesModule } from "./recipes/recipes.module";
 import { ShoppingListModule } from "./shopping-list/shopping-list.module";
 import { SharedModule } from "./shared/shared.module";
+import { CoreModule } from "./core.module";
 
 /* Components */
 import { AppComponent } from "./app.component";
 import { HeaderComponent } from "./header/header.component";
 import { AuthComponent } from "./auth/auth.component";
 import { AlertComponent } from "./shared/alert/alert.component";
-
-/* Services and Directives */
-import { AuthInterceptorService } from "./auth/auth-interceptor.service";
-import { ShoppingListService } from "./shopping-list/shopping-list.service";
-import { RecipesService } from "./recipes/recipes.service";
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, AuthComponent],
@@ -30,15 +26,7 @@ import { RecipesService } from "./recipes/recipes.service";
     RecipesModule,
     ShoppingListModule,
     SharedModule,
-  ],
-  providers: [
-    ShoppingListService,
-    RecipesService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true,
-    },
+    CoreModule,
   ],
   bootstrap: [AppComponent],
   // specify component(s) that will eventually need to be

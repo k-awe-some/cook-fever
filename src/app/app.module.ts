@@ -6,31 +6,21 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app.routing.module";
 import { RecipesModule } from "./recipes/recipes.module";
 import { ShoppingListModule } from "./shopping-list/shopping-list.module";
+import { SharedModule } from "./shared/shared.module";
 
 /* Components */
 import { AppComponent } from "./app.component";
 import { HeaderComponent } from "./header/header.component";
 import { AuthComponent } from "./auth/auth.component";
-import { LoadingSpinnerComponent } from "./shared/loading-spinner/loading-spinner.component";
 import { AlertComponent } from "./shared/alert/alert.component";
 
 /* Services and Directives */
 import { AuthInterceptorService } from "./auth/auth-interceptor.service";
 import { ShoppingListService } from "./shopping-list/shopping-list.service";
 import { RecipesService } from "./recipes/recipes.service";
-import { DropdownDirective } from "./shared/dropdown.directive";
-import { PlaceholderDirective } from "./shared/placeholder/placeholder.directive";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    DropdownDirective,
-    AuthComponent,
-    LoadingSpinnerComponent,
-    AlertComponent,
-    PlaceholderDirective,
-  ],
+  declarations: [AppComponent, HeaderComponent, AuthComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -39,6 +29,7 @@ import { PlaceholderDirective } from "./shared/placeholder/placeholder.directive
     AppRoutingModule,
     RecipesModule,
     ShoppingListModule,
+    SharedModule,
   ],
   providers: [
     ShoppingListService,

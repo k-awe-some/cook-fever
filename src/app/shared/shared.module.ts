@@ -23,5 +23,8 @@ import { PlaceholderDirective } from "./placeholder/placeholder.directive";
     PlaceholderDirective,
     DropdownDirective,
   ],
+  // specify component(s) that will eventually need to be
+  // created without a selector or a route config (Angular 8)
+  entryComponents: [AlertComponent],
 })
 export class SharedModule {}

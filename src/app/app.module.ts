@@ -8,7 +8,6 @@ import { SharedModule } from "./shared/shared.module";
 import { CoreModule } from "./core.module";
 import { AppComponent } from "./app.component";
 import { HeaderComponent } from "./header/header.component";
-import { AlertComponent } from "./shared/alert/alert.component";
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -20,8 +19,5 @@ import { AlertComponent } from "./shared/alert/alert.component";
     CoreModule,
   ],
   bootstrap: [AppComponent],
-  // specify component(s) that will eventually need to be
-  // created without a selector or a route config (Angular 8)
-  entryComponents: [AlertComponent],
 })
 export class AppModule {}

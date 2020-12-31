@@ -29,12 +29,14 @@ export class DataStorageService {
       // return a new (manipulated) observable
       map((res) => {
         // js map() function
-        return res.map((recipe) => {
-          return {
-            ...recipe,
-            ingredients: recipe.ingredients ? recipe.ingredients : [],
-          };
-        });
+        return res
+          ? res.map((recipe) => {
+              return {
+                ...recipe,
+                ingredients: recipe.ingredients ? recipe.ingredients : [],
+              };
+            })
+          : [];
       }),
       // rxjs tap(): perform some action on input observable
       tap((res) => {

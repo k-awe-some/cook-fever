@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "cookfever-cca20",
+    "public": "dist/cook-fever",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

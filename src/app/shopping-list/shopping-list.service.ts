@@ -8,10 +8,10 @@ export class ShoppingListService {
 
   constructor() {}
 
-  addIngredient(ingredient: Ingredient) {
-    this.ingredients.push(ingredient);
-    this.ingredientsChanged.next(this.ingredients.slice());
-  }
+  // addIngredient(ingredient: Ingredient) {
+  //   this.ingredients.push(ingredient);
+  //   this.ingredientsChanged.next(this.ingredients.slice());
+  // }
 
   updateIngredient(index: number, newIngredient: Ingredient) {
     this.ingredients[index] = newIngredient;

@@ -3,9 +3,12 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { catchError, tap } from "rxjs/operators";
 import { BehaviorSubject, throwError } from "rxjs";
+import { Store } from "@ngrx/store";
 
 import { environment } from "../../environments/environment";
 import { User } from "./user.model";
+import * as StoreType from "../store/store.model";
+import * as AuthActions from "../auth/store/auth.actions";
 
 export interface AuthResponseData {
   idToken: string;
@@ -24,7 +27,11 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any = null;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private store: Store<StoreType.IStore>
+  ) {}
 
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage: string = "An unknown error occurred!";
@@ -64,7 +71,8 @@ export class AuthService {
       expirationDate
     );
 
-    this.user.next(user); // emit currently logged in user
+    // this.user.next(user); // emit currently logged in user
+    this.store.dispatch(new AuthActions.LogIn(user));
     this.autoLogOut(resData.expiresIn * 1000);
     localStorage.setItem("userData", JSON.stringify(user));
   }
@@ -114,7 +122,8 @@ export class AuthService {
     );
 
     if (loadedUser.token) {
-      this.user.next(loadedUser);
+      // this.user.next(loadedUser);
+      this.store.dispatch(new AuthActions.LogIn(loadedUser));
 
       // getTime(): returns time in milliseconds
       const remainingAuthDuration =
@@ -125,7 +134,8 @@ export class AuthService {
   }
 
   logOut() {
-    this.user.next(null);
+    // this.user.next(null);
+    this.store.dispatch(new AuthActions.LogOut());
     this.router.navigate(["/auth"]);
     localStorage.removeItem("userData");
     if (this.tokenExpirationTimer) {

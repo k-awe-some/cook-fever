@@ -7,11 +7,13 @@ import {
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
+import { Store } from "@ngrx/store";
 
 import { AuthResponseData, AuthService } from "./auth.service";
 import { AlertComponent } from "../shared/alert/alert.component";
 import { PlaceholderDirective } from "../shared/placeholder/placeholder.directive";
-
+import * as StoreType from "../store/store.model";
+import * as AuthActions from "../auth/store/auth.actions";
 @Component({
   selector: "app-auth",
   templateUrl: "./auth.component.html",
@@ -30,6 +32,7 @@ export class AuthComponent implements OnDestroy {
   }
 
   constructor(
+    private store: Store<StoreType.IStore>,
     private authService: AuthService,
     private router: Router,
     private componentFactoryResolver: ComponentFactoryResolver
@@ -46,9 +49,13 @@ export class AuthComponent implements OnDestroy {
 
     this.isLoading = true;
 
-    authObservable = !this.isLogInMode
+    // authObservable = !this.isLogInMode
+    //   ? this.authService.signUp(form.value)
+    //   : this.authService.logIn(form.value);
+
+    !this.isLogInMode
       ? this.authService.signUp(form.value)
-      : this.authService.logIn(form.value);
+      : this.store.dispatch(new AuthActions.LogInStart(form.value));
 
     authObservable.subscribe(
       (res) => {

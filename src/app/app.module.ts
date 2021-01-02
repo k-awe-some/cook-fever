@@ -10,13 +10,17 @@ import { CoreModule } from "./core.module";
 import { AppComponent } from "./app.component";
 import { HeaderComponent } from "./header/header.component";
 import { shoppingListReducer } from "./shopping-list/store/shopping-list.reducer";
+import { AuthReducer } from "./auth/store/auth.reducer";
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
-    StoreModule.forRoot({ shoppingList: shoppingListReducer }), // register reducers
+    StoreModule.forRoot({
+      authentication: AuthReducer,
+      shoppingList: shoppingListReducer,
+    }), // register reducers
     AppRoutingModule,
     SharedModule,
     CoreModule,

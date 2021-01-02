@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 
-import * as AppState from "../shared/store.model";
+import * as AppState from "../store/store.model";
 import * as ShoppingListActions from "../shopping-list/store/shopping-list.actions";
 
 @Component({

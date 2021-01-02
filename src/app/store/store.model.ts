@@ -1,8 +1,8 @@
-import { Ingredient } from "./ingredient.model";
+import { Ingredient } from "../shared/ingredient.model";
 import { User } from "../auth/user.model";
 
 export interface IStore {
-  auth: IAuth;
+  authentication: IAuth;
   shoppingList: IShoppingList;
 }
 

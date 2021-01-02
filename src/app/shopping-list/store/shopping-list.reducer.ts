@@ -1,7 +1,7 @@
 import { Ingredient } from "../../shared/ingredient.model";
 
 import * as ShoppingListActions from "./shopping-list.actions";
-import * as StoreType from "../../shared/store.model";
+import * as StoreType from "../../store/store.model";
 
 const INITIAL_STATE: StoreType.IShoppingList = {
   ingredients: [new Ingredient("Apples", 5), new Ingredient("Tomatoes", 10)],

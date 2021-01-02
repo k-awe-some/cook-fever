@@ -3,7 +3,7 @@ import { NgForm } from "@angular/forms";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
 
-import { IStore } from "src/app/shared/store.model";
+import { IStore } from "src/app/store/store.model";
 import { Ingredient } from "src/app/shared/ingredient.model";
 import * as ShoppingListActions from "../store/shopping-list.actions";
 

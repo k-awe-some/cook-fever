@@ -1,4 +1,4 @@
-import * as StoreType from "../../shared/store.model";
+import * as StoreType from "../../store/store.model";
 
 const INITIAL_STATE: StoreType.IAuth = {
   user: null,

@@ -6,4 +6,6 @@ export interface IStore {
 
 export interface IShoppingList {
   ingredients: Ingredient[];
+  editedIngredient: Ingredient;
+  editedIngredientIndex: number;
 }

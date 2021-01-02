@@ -3,6 +3,8 @@ import * as shoppingListActions from "./shopping-list.actions";
 
 const INITIAL_STATE = {
   ingredients: [new Ingredient("Apples", 5), new Ingredient("Tomatoes", 10)],
+  editedIngredient: null,
+  editedIngredientIndex: -1,
 };
 
 export const shoppingListReducer = (
@@ -35,6 +37,16 @@ export const shoppingListReducer = (
           (ingredient, index) => index !== action.payload.index
         ),
       };
+
+    case shoppingListActions.START_EDIT_INGREDIENT:
+      return {
+        ...state,
+        editedIngredientIndex: action.payload.index,
+        editedIngredient: { ...state.ingredients[action.payload.index] },
+      };
+
+    case shoppingListActions.STOP_EDIT_INGREDIENT:
+      return { ...state, editedIngredient: null, editedIngredientIndex: -1 };
 
     default:
       return state;

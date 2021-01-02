@@ -26,6 +26,9 @@ export const AuthReducer = (
     case AuthActions.SIGNUP:
       return { ...state };
 
+    // always return state by default as every
+    // dispatched action will reach all reducers
+    // regardless of what the action is
     default:
       return state;
   }

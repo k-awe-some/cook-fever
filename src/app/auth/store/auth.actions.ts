@@ -1,9 +1,9 @@
 import { Action } from "@ngrx/store";
 import { User } from "../user.model";
 
-export const LOGIN = "LOGIN";
-export const LOGOUT = "LOGOUT";
-export const SIGNUP = "SIGNUP";
+export const LOGIN = "[Auth] LOGIN";
+export const LOGOUT = "[Auth] LOGOUT";
+export const SIGNUP = "[Auth] SIGNUP";
 
 export class LogIn implements Action {
   readonly type = LOGIN;

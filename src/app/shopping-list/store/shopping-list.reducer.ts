@@ -7,11 +7,34 @@ const INITIAL_STATE = {
 
 export const shoppingListReducer = (
   state = INITIAL_STATE,
-  action: shoppingListActions.AddIngredient
+  action: shoppingListActions.ShoppingListActions
 ) => {
   switch (action.type) {
     case shoppingListActions.ADD_INGREDIENT:
       return { ...state, ingredients: [...state.ingredients, action.payload] };
+
+    case shoppingListActions.UPDATE_INGREDIENT:
+      // extract current ingredient at payload.index
+      const currentIngredient = state.ingredients[action.payload.index];
+      // create the updated ingredient object
+      const updatedIngredient = {
+        ...currentIngredient,
+        ...action.payload.ingredient,
+      };
+      // make a copy of current state (ingredient array)
+      const updatedIngredients = [...state.ingredients];
+      // update such copy
+      updatedIngredients[action.payload.index] = updatedIngredient;
+
+      return { ...state, ingredients: updatedIngredients };
+
+    case shoppingListActions.DELETE_INGREDIENT:
+      return {
+        ...state,
+        ingredients: state.ingredients.filter(
+          (ingredient, index) => index !== action.payload.index
+        ),
+      };
 
     default:
       return state;

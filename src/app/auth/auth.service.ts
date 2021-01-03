@@ -92,17 +92,17 @@ export class AuthService {
       );
   }
 
-  logIn(data: { email: string; password: string }) {
-    return this.http
-      .post<AuthResponseData>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebaseAPIKey}`,
-        { ...data, returnSecureToken: true }
-      )
-      .pipe(
-        catchError((errorRes) => this.handleError(errorRes)),
-        tap((resData) => this.handleAuth(resData))
-      );
-  }
+  // logIn(data: { email: string; password: string }) {
+  //   return this.http
+  //     .post<AuthResponseData>(
+  //       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebaseAPIKey}`,
+  //       { ...data, returnSecureToken: true }
+  //     )
+  //     .pipe(
+  //       catchError((errorRes) => this.handleError(errorRes)),
+  //       tap((resData) => this.handleAuth(resData))
+  //     );
+  // }
 
   autoLogIn() {
     const userData: {

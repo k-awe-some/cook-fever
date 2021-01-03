@@ -3,6 +3,7 @@ import { User } from "../user.model";
 
 export const LOGIN_START = "[Auth] LOGIN_START";
 export const LOGIN = "[Auth] LOGIN";
+export const LOGIN_FAIL = "[Auth] LOGIN_FAIL";
 export const LOGOUT = "[Auth] LOGOUT";
 export const SIGNUP = "[Auth] SIGNUP";
 
@@ -16,6 +17,11 @@ export class LogIn implements Action {
   constructor(public payload: User) {}
 }
 
+export class LogInFail implements Action {
+  readonly type = LOGIN_FAIL;
+  constructor(public payload: string) {}
+}
+
 export class LogOut implements Action {
   readonly type = LOGOUT;
 }
@@ -25,4 +31,4 @@ export class SignUp implements Action {
   constructor(public payload: { email: string; password: string }) {}
 }
 
-export type AuthActions = LogIn | LogOut | SignUp;
+export type AuthActions = LogInStart | LogIn | LogInFail | LogOut | SignUp;

@@ -4,6 +4,8 @@ import * as AuthActions from "../../auth/store/auth.actions";
 
 const INITIAL_STATE: StoreType.IAuth = {
   user: null,
+  authError: null,
+  loading: false,
 };
 
 export const AuthReducer = (
@@ -11,6 +13,9 @@ export const AuthReducer = (
   action: AuthActions.AuthActions
 ) => {
   switch (action.type) {
+    case AuthActions.LOGIN_START:
+      return { ...state, authError: null, loading: true };
+
     case AuthActions.LOGIN:
       const user = new User(
         action.payload.email,
@@ -18,7 +23,15 @@ export const AuthReducer = (
         action.payload.token,
         action.payload.expirationDate
       );
-      return { ...state, user };
+      return { ...state, user, authError: null, loading: false };
+
+    case AuthActions.LOGIN_FAIL:
+      return {
+        ...state,
+        user: null,
+        authError: action.payload,
+        loading: false,
+      };
 
     case AuthActions.LOGOUT:
       return { ...state, user: null };

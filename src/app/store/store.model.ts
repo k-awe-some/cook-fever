@@ -14,4 +14,6 @@ export interface IShoppingList {
 
 export interface IAuth {
   user: User;
+  authError: string;
+  loading: boolean;
 }

@@ -16,7 +16,7 @@ export const AuthReducer = (
     case AuthActions.LOGIN_START:
       return { ...state, authError: null, loading: true };
 
-    case AuthActions.LOGIN:
+    case AuthActions.AUTHENTICATE_SUCCESS:
       const user = new User(
         action.payload.email,
         action.payload.id,
@@ -25,7 +25,7 @@ export const AuthReducer = (
       );
       return { ...state, user, authError: null, loading: false };
 
-    case AuthActions.LOGIN_FAIL:
+    case AuthActions.AUTHENTICATE_FAIL:
       return {
         ...state,
         user: null,
@@ -35,9 +35,6 @@ export const AuthReducer = (
 
     case AuthActions.LOGOUT:
       return { ...state, user: null };
-
-    case AuthActions.SIGNUP:
-      return { ...state };
 
     // always return state by default as every
     // dispatched action will reach all reducers

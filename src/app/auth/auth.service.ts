@@ -72,7 +72,7 @@ export class AuthService {
     );
 
     // this.user.next(user); // emit currently logged in user
-    this.store.dispatch(new AuthActions.LogIn(user));
+    this.store.dispatch(new AuthActions.AuthenticateSuccess(user));
     this.autoLogOut(resData.expiresIn * 1000);
     localStorage.setItem("userData", JSON.stringify(user));
   }
@@ -123,7 +123,7 @@ export class AuthService {
 
     if (loadedUser.token) {
       // this.user.next(loadedUser);
-      this.store.dispatch(new AuthActions.LogIn(loadedUser));
+      this.store.dispatch(new AuthActions.AuthenticateSuccess(loadedUser));
 
       // getTime(): returns time in milliseconds
       const remainingAuthDuration =

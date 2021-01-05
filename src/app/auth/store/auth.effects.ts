@@ -48,7 +48,7 @@ export class AuthEffects {
             );
             // return the observable that holds data ready for LOGIN action
             // which will auto get dispatched by @Effect()
-            return new AuthActions.LogIn(user);
+            return new AuthActions.AuthenticateSuccess(user);
           }),
           // error has to be caught in the http observable pipe
           catchError((errorRes) => {
@@ -56,7 +56,7 @@ export class AuthEffects {
 
             // handle network error
             if (!errorRes.error || !errorRes.error.error)
-              return of(new AuthActions.LogInFail(errorMessage));
+              return of(new AuthActions.AuthenticateFail(errorMessage));
 
             switch (errorRes.error.error.message) {
               case "EMAIL_EXISTS":
@@ -76,15 +76,19 @@ export class AuthEffects {
             }
             // must return a non-error observable wrapped in of()
             // so that the overall stream doesn't die
-            return of(new AuthActions.LogInFail(errorMessage));
+            return of(new AuthActions.AuthenticateFail(errorMessage));
           })
         );
     })
   );
 
+  @Effect() authSignUpHandler = this.actions$.pipe(
+    ofType(AuthActions.SIGNUP_START)
+  );
+
   // this effect should not yield a dispatched action at the end
   @Effect({ dispatch: false }) authSuccessHandler = this.actions$.pipe(
-    ofType(AuthActions.LOGIN), // filter successful login
+    ofType(AuthActions.AUTHENTICATE_SUCCESS), // filter successful login
     tap(() => {
       this.router.navigate(["/"]);
     })

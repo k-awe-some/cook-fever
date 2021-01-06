@@ -18,6 +18,46 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
+const handleAuth = (dataRes) => {
+  const expirationDate = new Date(
+    new Date().getTime() + +dataRes.expiresIn * 1000
+  );
+  const user = new User(
+    dataRes.email,
+    dataRes.localId,
+    dataRes.idToken,
+    expirationDate
+  );
+  // return the observable that holds data ready for LOGIN action
+  // which will auto get dispatched by @Effect()
+  return new AuthActions.AuthenticateSuccess(user);
+};
+
+const handleError = (errorRes) => {
+  let errorMessage: string = "An unknown error occurred!";
+
+  // handle network error
+  if (!errorRes.error || !errorRes.error.error)
+    return of(new AuthActions.AuthenticateFail(errorMessage));
+
+  switch (errorRes.error.error.message) {
+    case "EMAIL_EXISTS":
+      errorMessage = "This email already exists.";
+      break;
+    case "EMAIL_NOT_FOUND":
+      errorMessage = "This email does not exist.";
+      break;
+    case "INVALID_PASSWORD":
+      errorMessage = "This password is incorrect.";
+      break;
+    default:
+      break;
+  }
+  // must return a non-error observable wrapped in of()
+  // so that the overall stream doesn't die
+  return of(new AuthActions.AuthenticateFail(errorMessage));
+};
+
 @Injectable() // so things can be injected into AuthEffects
 export class AuthEffects {
   // an Effect is an action handler that will subscribe to the action behind the scenes
@@ -36,54 +76,26 @@ export class AuthEffects {
           { ...authData.payload, returnSecureToken: true }
         )
         .pipe(
-          map((dataRes) => {
-            const expirationDate = new Date(
-              new Date().getTime() + +dataRes.expiresIn * 1000
-            );
-            const user = new User(
-              dataRes.email,
-              dataRes.localId,
-              dataRes.idToken,
-              expirationDate
-            );
-            // return the observable that holds data ready for LOGIN action
-            // which will auto get dispatched by @Effect()
-            return new AuthActions.AuthenticateSuccess(user);
-          }),
+          map((dataRes) => handleAuth(dataRes)),
           // error has to be caught in the http observable pipe
-          catchError((errorRes) => {
-            let errorMessage: string = "An unknown error occurred!";
-
-            // handle network error
-            if (!errorRes.error || !errorRes.error.error)
-              return of(new AuthActions.AuthenticateFail(errorMessage));
-
-            switch (errorRes.error.error.message) {
-              case "EMAIL_EXISTS":
-                errorMessage = "This email already exists.";
-                break;
-
-              case "EMAIL_NOT_FOUND":
-                errorMessage = "This email does not exist.";
-                break;
-
-              case "INVALID_PASSWORD":
-                errorMessage = "This password is incorrect.";
-                break;
-
-              default:
-                break;
-            }
-            // must return a non-error observable wrapped in of()
-            // so that the overall stream doesn't die
-            return of(new AuthActions.AuthenticateFail(errorMessage));
-          })
+          catchError((errorRes) => handleError(errorRes))
         );
     })
   );
 
   @Effect() authSignUpHandler = this.actions$.pipe(
-    ofType(AuthActions.SIGNUP_START)
+    ofType(AuthActions.SIGNUP_START),
+    switchMap((signUpAction: AuthActions.SignUpStart) => {
+      return this.http
+        .post<AuthResponseData>(
+          `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseAPIKey}`,
+          { ...signUpAction.payload, returnSecureToken: true }
+        )
+        .pipe(
+          map((dataRes) => handleAuth(dataRes)),
+          catchError((errorRes) => handleError(errorRes))
+        );
+    })
   );
 
   // this effect should not yield a dispatched action at the end

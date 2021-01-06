@@ -24,19 +24,23 @@ export class AuthComponent implements OnInit, OnDestroy {
   @ViewChild(PlaceholderDirective, { static: false })
   alertHost: PlaceholderDirective;
   private closeAlertSubscription: Subscription = null;
+  private storeSubscription: Subscription = null;
 
   isLogInMode: boolean = true;
   isLoading: boolean = false;
 
   ngOnInit() {
-    this.store.select("authentication").subscribe((authState) => {
-      this.isLoading = authState.loading;
-      if (authState.authError) this.showErrorAlert(authState.authError);
-    });
+    this.storeSubscription = this.store
+      .select("authentication")
+      .subscribe((authState) => {
+        this.isLoading = authState.loading;
+        if (authState.authError) this.showErrorAlert(authState.authError);
+      });
   }
 
   ngOnDestroy() {
     if (this.closeAlertSubscription) this.closeAlertSubscription.unsubscribe();
+    if (this.storeSubscription) this.storeSubscription.unsubscribe();
   }
 
   constructor(
@@ -56,8 +60,9 @@ export class AuthComponent implements OnInit, OnDestroy {
     let authObservable: Observable<AuthResponseData>;
 
     !this.isLogInMode
-      ? this.authService.signUp(form.value)
-      : this.store.dispatch(new AuthActions.LogInStart(form.value)); // this dispatch does not yield an observable as it's already subscribed by @Effect() authLogInHandler
+      ? this.store.dispatch(new AuthActions.SignUpStart(form.value))
+      : this.store.dispatch(new AuthActions.LogInStart(form.value));
+    // these dispatches does not yield an observable as it's already subscribed by @Effect() authLogInHandler
 
     form.reset();
   }

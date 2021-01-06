@@ -80,17 +80,17 @@ export class AuthService {
   // Firebase User Auth Reference:
   // https://firebase.google.com/docs/reference/rest/auth#section-create-email-password
 
-  signUp(data: { email: string; password: string }) {
-    return this.http
-      .post<AuthResponseData>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseAPIKey}`,
-        { ...data, returnSecureToken: true }
-      )
-      .pipe(
-        catchError((errorRes) => this.handleError(errorRes)),
-        tap((resData) => this.handleAuth(resData))
-      );
-  }
+  // signUp(data: { email: string; password: string }) {
+  //   return this.http
+  //     .post<AuthResponseData>(
+  //       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseAPIKey}`,
+  //       { ...data, returnSecureToken: true }
+  //     )
+  //     .pipe(
+  //       catchError((errorRes) => this.handleError(errorRes)),
+  //       tap((resData) => this.handleAuth(resData))
+  //     );
+  // }
 
   // logIn(data: { email: string; password: string }) {
   //   return this.http

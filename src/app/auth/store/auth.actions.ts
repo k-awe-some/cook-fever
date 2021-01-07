@@ -7,7 +7,6 @@ export const AUTHENTICATE_SUCCESS = "[Auth] AUTHENTICATE_SUCCESS";
 export const AUTHENTICATE_FAIL = "[Auth] AUTHENTICATE_FAIL";
 export const LOGOUT = "[Auth] LOGOUT";
 export const SIGNUP_START = "[Auth] SIGNUP_START";
-// export const SIGNUP = "[Auth] SIGNUP";
 
 export class AutoLogIn implements Action {
   readonly type = AUTO_LOGIN;

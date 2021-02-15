@@ -2,36 +2,47 @@ import {
   Component,
   ComponentFactoryResolver,
   OnDestroy,
+  OnInit,
   ViewChild,
 } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { Router } from "@angular/router";
-import { Observable, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
+import { Store } from "@ngrx/store";
 
-import { AuthResponseData, AuthService } from "./auth.service";
 import { AlertComponent } from "../shared/alert/alert.component";
 import { PlaceholderDirective } from "../shared/placeholder/placeholder.directive";
+import * as StoreType from "../store/store.model";
+import * as AuthActions from "../auth/store/auth.actions";
 
 @Component({
   selector: "app-auth",
   templateUrl: "./auth.component.html",
 })
-export class AuthComponent implements OnDestroy {
+export class AuthComponent implements OnInit, OnDestroy {
   @ViewChild(PlaceholderDirective, { static: false })
   alertHost: PlaceholderDirective;
   private closeAlertSubscription: Subscription = null;
+  private storeSubscription: Subscription = null;
 
   isLogInMode: boolean = true;
   isLoading: boolean = false;
-  // error: string = null;
+
+  ngOnInit() {
+    this.storeSubscription = this.store
+      .select("authentication")
+      .subscribe((authState) => {
+        this.isLoading = authState.loading;
+        if (authState.authError) this.showErrorAlert(authState.authError);
+      });
+  }
 
   ngOnDestroy() {
     if (this.closeAlertSubscription) this.closeAlertSubscription.unsubscribe();
+    if (this.storeSubscription) this.storeSubscription.unsubscribe();
   }
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
+    private store: Store<StoreType.IStore>,
     private componentFactoryResolver: ComponentFactoryResolver
   ) {}
 
@@ -42,26 +53,10 @@ export class AuthComponent implements OnDestroy {
   onSubmit(form: NgForm) {
     if (form.invalid) return;
 
-    let authObservable: Observable<AuthResponseData>;
-
-    this.isLoading = true;
-
-    authObservable = !this.isLogInMode
-      ? this.authService.signUp(form.value)
-      : this.authService.logIn(form.value);
-
-    authObservable.subscribe(
-      (res) => {
-        this.isLoading = false;
-        // this.error = null;
-        this.router.navigate(["/recipes"]);
-      },
-      (errorMessage) => {
-        // this.error = errorMessage;
-        this.showErrorAlert(errorMessage);
-        this.isLoading = false;
-      }
-    );
+    !this.isLogInMode
+      ? this.store.dispatch(new AuthActions.SignUpStart(form.value))
+      : this.store.dispatch(new AuthActions.LogInStart(form.value));
+    // these dispatches does not yield an observable as it's already subscribed by @Effect() authLogInHandler
 
     form.reset();
   }

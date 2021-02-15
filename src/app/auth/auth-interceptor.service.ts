@@ -5,18 +5,20 @@ import {
   HttpParams,
   HttpRequest,
 } from "@angular/common/http";
-import { exhaustMap, take } from "rxjs/operators";
+import { exhaustMap, map, take } from "rxjs/operators";
+import { Store } from "@ngrx/store";
 
-import { AuthService } from "./auth.service";
+import * as StoreType from "../store/store.model";
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private store: Store<StoreType.IStore>) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    return this.authService.user.pipe(
+    return this.store.select("authentication").pipe(
       // take value from user observable (1 time only, then auto unsubscribe())
       take(1),
+      map((authState) => authState.user),
       // replace it with handle observable
       // modify request to attach token
       // and return this handle observable

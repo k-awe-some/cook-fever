@@ -6,7 +6,8 @@ import {
 } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Actions, ofType } from "@ngrx/effects";
-import { take } from "rxjs/operators";
+import { of } from "rxjs";
+import { map, switchMap, take } from "rxjs/operators";
 
 import { Recipe } from "./recipe.model";
 import { DataStorageService } from "../shared/data-storage.service";
@@ -32,7 +33,20 @@ export class RecipesResolverService implements Resolve<Recipe[]> {
     //   ? this.dataStorageService.fetchRecipes()
     //   : recipes;
 
+    return this.store.select("recipes").pipe(
+      take(1),
+      map((recipesState) => {
+        return recipesState.recipes;
+      }),
+      switchMap((recipes) => {
+        if (recipes.length === 0) {
+          this.store.dispatch(new RecipeActions.FetchRecipes());
+          return this.actions$.pipe(ofType(RecipeActions.SET_RECIPES), take(1));
+        } else {
+          return of(recipes);
+        }
+      })
+    );
     this.store.dispatch(new RecipeActions.FetchRecipes());
-    return this.actions$.pipe(ofType(RecipeActions.SET_RECIPES), take(1));
   }
 }

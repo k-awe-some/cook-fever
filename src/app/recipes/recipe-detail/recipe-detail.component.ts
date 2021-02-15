@@ -5,8 +5,8 @@ import { Store } from "@ngrx/store";
 
 import { IStore } from "src/app/store/store.model";
 import { Recipe } from "../recipe.model";
-import { RecipesService } from "../recipes.service";
 import * as ShoppingListActions from "../../shopping-list/store/shopping-list.actions";
+import * as RecipeActions from "../store/recipe.actions";
 
 @Component({
   selector: "app-recipe-detail",
@@ -18,7 +18,6 @@ export class RecipeDetailComponent implements OnInit {
   id: number;
 
   constructor(
-    private recipesService: RecipesService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<IStore>
@@ -51,7 +50,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onDeleteRecipe() {
-    this.recipesService.deleteRecipe(this.id);
+    this.store.dispatch(new RecipeActions.DeleteRecipe(this.id));
     this.router.navigate(["recipes"]);
   }
 }

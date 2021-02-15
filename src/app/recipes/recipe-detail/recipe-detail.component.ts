@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, Params } from "@angular/router";
+import { map } from "rxjs/operators";
 import { Store } from "@ngrx/store";
 
 import { IStore } from "src/app/store/store.model";
@@ -26,7 +27,16 @@ export class RecipeDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.id = +params["id"];
-      this.recipe = this.recipesService.getRecipe(this.id);
+      this.store
+        .select("recipes")
+        .pipe(
+          map((recipesState) => {
+            return recipesState.recipes.find(
+              (recipe, index) => index === this.id
+            );
+          })
+        )
+        .subscribe((recipe) => (this.recipe = recipe));
     });
   }
 

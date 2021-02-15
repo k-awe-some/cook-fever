@@ -18,12 +18,12 @@ export class DataStorageService {
     private store: Store<StoreType.IRecipes>
   ) {}
 
-  storeRecipes() {
-    const recipes = this.recipesService.getRecipes();
-    this.http
-      .put(`${this.firebaseAPI}/recipes.json`, recipes)
-      .subscribe((res) => console.log(res));
-  }
+  // storeRecipes() {
+  //   const recipes = this.recipesService.getRecipes();
+  //   this.http
+  //     .put(`${this.firebaseAPI}/recipes.json`, recipes)
+  //     .subscribe((res) => console.log(res));
+  // }
 
   // fetchRecipes() {
   //   return this.http.get<Recipe[]>(`${this.firebaseAPI}/recipes.json`).pipe(

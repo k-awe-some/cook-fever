@@ -8,7 +8,7 @@ const INITIAL_STATE: StoreType.IAuth = {
   loading: false,
 };
 
-export const AuthReducer = (
+export const authReducer = (
   state = INITIAL_STATE,
   action: AuthActions.AuthActions
 ) => {
